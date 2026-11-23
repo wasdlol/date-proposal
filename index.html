@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="light dark" />
+<link rel="icon" href="data:," />
+<title>11/25 映画デートのお誘い｜錦糸町で3本立て</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=M+PLUS+Rounded+1c:wght@500;700;800&display=swap" rel="stylesheet" />
+<style>
+:root {
+color-scheme: light;
+--bg: #fdf6ec;
+--bg-dot: #eeddc0;
+--card: #fffef9;
+--ink: #3d2b26;
+--ink-soft: #7d655e;
+--pink: #ef8fab;
+--pink-deep: #d95d7e;
+--pink-soft: #fdeaf0;
+--purple: #8d7fb8;
+--purple-deep: #6f5da6;
+--yellow: #f2b749;
+--mint: #7fb99e;
+--line: #eedfc9;
+--shadow: 0 10px 30px rgba(122, 74, 30,.10);
+}
+@media (prefers-color-scheme: dark) {
+:root {
+color-scheme: dark;
+--bg: #251b20;
+--bg-dot: #3a2a34;
+--card: #34252f;
+--ink: #fdf0e6;
+--ink-soft: #d9b8ac;
+--pink: #ef8fab;
+--pink-deep: #ff8fab;
+--pink-soft: #4a2b3a;
+--purple: #a79bcf;
+--purple-deep: #c0b3e8;
+--yellow: #f2b749;
+--mint: #7fb99e;
+--line: #4d3745;
+--shadow: 0 10px 30px rgba(0, 0, 0,.35);
+}
+}
+* { box-sizing: border-box;}
+html, body { margin: 0; padding: 0;}
+body {
+font-family: "Zen Maru Gothic", "M PLUS Rounded 1c", "Hiragino Maru Gothic ProN", "Hiragino Sans", sans-serif;
+background: var(--bg);
+background-image: radial-gradient(var(--bg-dot) 1.8px, transparent 1.9px);
+background-size: 24px 24px;
+color: var(--ink);
+-webkit-font-smoothing: antialiased;
+line-height: 1.7;
+}
+main { max-width: 600px; margin: 0 auto; padding: 20px 16px 56px;}
+button, a.btn { min-height: 48px;}
+a { color: var(--purple-deep);}
+
+.screen { display: none;}
+.screen.active { display: block; animation: pop.45s cubic-bezier(.2, 1.4,.4, 1) both;}
+@keyframes pop { from { opacity: 0; transform: translateY(14px) scale(.98);} to { opacity: 1; transform: none;}}
+@media (prefers-reduced-motion: reduce) {
+.screen.active { animation: none;}
+* { transition: none!important;}
+}
+
+.steps { display: flex; gap: 8px; justify-content: center; margin: 6px 0 22px;}
+.steps span { width: 34px; height: 8px; border-radius: 99px; background: var(--line);}
+.steps span.on { background: var(--pink);}
+
+.card {
+background: var(--card);
+border: 2px solid var(--line);
+border-radius: 24px;
+box-shadow: var(--shadow);
+padding: 30px 22px 26px;
+text-align: center;
+}
+.kicker {
+display: inline-block; font-size: 12.5px; font-weight: 700; letter-spacing:.08em;
+color: var(--purple-deep); background: var(--pink-soft);
+padding: 7px 14px; border-radius: 99px; margin-bottom: 16px;
+}
+h1.big {
+font-family: "Zen Maru Gothic", "M PLUS Rounded 1c", sans-serif;
+font-size: clamp(32px, 8.5vw, 46px); line-height: 1.35; margin: 0 0 12px; font-weight: 900;
+letter-spacing:.02em;
+}
+.sub { color: var(--ink-soft); font-size: 15px; line-height: 1.9; margin: 0 auto 8px; max-width: 42ch;}
+.sub strong { color: var(--ink);}
+
+.art {
+margin: 20px auto 6px; width: min(300px, 78vw); border-radius: 20px;
+background: var(--purple); padding: 18px 10px 8px;
+}
+.art.pinkbg { background: var(--pink);}
+.art svg { display: block; width: 100%; height: auto;}
+
+/* choice stage */
+.choice-stage { position: relative; min-height: 190px; margin-top: 10px;}
+.choice-row { display: flex; gap: 14px; justify-content: center; align-items: center; padding-top: 26px; flex-wrap: wrap;}
+.btn-yes {
+font-family: inherit; font-weight: 800; font-size: 19px; cursor: pointer;
+background: var(--pink); color: #fff; border: none; border-radius: 99px;
+padding: 16px 42px; box-shadow: 0 8px 0 var(--pink-deep);
+transition: transform.15s, box-shadow.15s;
+}
+.btn-yes:active { transform: translateY(6px); box-shadow: 0 2px 0 var(--pink-deep);}
+.btn-no {
+font-family: inherit; font-weight: 700; font-size: 16px; cursor: pointer;
+background: var(--card); color: var(--ink-soft); border: 2px solid var(--line);
+border-radius: 99px; padding: 13px 28px; transition: left.25s, top.25s, transform.25s;
+touch-action: none; z-index: 3; white-space: nowrap;
+}
+.btn-no.floating { position: absolute; margin: 0;}
+.dodge-msg { min-height: 28px; font-size: 14px; font-weight: 700; color: var(--pink-deep); margin-top: 4px;}
+.fineprint { font-size: 12px; color: var(--ink-soft); margin-top: 6px;}
+
+.btn-next {
+font-family: inherit; font-weight: 800; font-size: 18px; cursor: pointer;
+background: var(--pink); color: #fff; border: none; border-radius: 99px;
+padding: 15px 36px; box-shadow: 0 7px 0 var(--pink-deep); margin-top: 16px;
+transition: transform.15s, box-shadow.15s;
+}
+.btn-next:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--pink-deep);}
+
+/* plan screen */
+.plan-head { text-align: center; margin-bottom: 18px;}
+.plan-head h2 { font-size: clamp(26px, 7vw, 34px); margin: 0 0 6px; font-weight: 900; line-height: 1.4; font-family: "Zen Maru Gothic", "M PLUS Rounded 1c", sans-serif;}
+.plan-head p { color: var(--ink-soft); margin: 0; font-size: 14px; line-height: 1.9;}
+.venue-chip {
+display: inline-flex; align-items: center; gap: 7px; margin-top: 12px;
+background: var(--card); border: 2px solid var(--line); border-radius: 99px;
+padding: 9px 16px; font-weight: 800; font-size: 14px; box-shadow: var(--shadow);
+}
+
+.timeline { list-style: none; margin: 22px 0 0; padding: 0; text-align: left;}
+.timeline li { display: grid; grid-template-columns: 74px 22px 1fr; gap: 0 8px;}
+.t-time { font-family: "Zen Maru Gothic", "M PLUS Rounded 1c", sans-serif; font-weight: 700; font-size: 15px; padding-top: 3px; text-align: right; font-variant-numeric: tabular-nums;}
+.t-dot { position: relative; display: flex; justify-content: center;}
+.t-dot::before { content: ""; width: 13px; height: 13px; border-radius: 50%; background: var(--pink); border: 3px solid var(--card); box-shadow: 0 0 0 2px var(--pink); margin-top: 5px; z-index: 1;}
+.t-dot::after { content: ""; position: absolute; top: 22px; bottom: -6px; width: 3px; border-radius: 3px; background: var(--line);}
+.timeline li:last-child.t-dot::after { display: none;}
+.t-body { padding-bottom: 26px;}
+.t-body h3 { margin: 0 0 4px; font-size: 17px; font-weight: 800; line-height: 1.5;}
+.t-body p { margin: 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.85;}
+.t-break.t-dot::before { background: var(--yellow); box-shadow: 0 0 0 2px var(--yellow);}
+.t-break h3 { font-size: 15px; color: var(--ink-soft);}
+.t-home.t-dot::before { background: var(--mint); box-shadow: 0 0 0 2px var(--mint);}
+
+.movie-meta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;}
+.tag { font-size: 11.5px; font-weight: 800; border-radius: 99px; padding: 5px 11px; background: var(--pink-soft); color: var(--pink-deep);}
+.tag.alt { background: #eeeafd; color: var(--purple-deep);}
+@media (prefers-color-scheme: dark) {.tag.alt { background: #38305e;}}
+.book-link {
+display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+font-weight: 800; font-size: 14px; text-decoration: none;
+background: var(--purple); color: #fff; border-radius: 99px; padding: 11px 20px;
+box-shadow: 0 5px 0 var(--purple-deep);
+}
+.book-link:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--purple-deep);}
+
+.info-box {
+background: var(--card); border: 2px solid var(--line); border-radius: 20px;
+box-shadow: var(--shadow); padding: 20px; text-align: left; margin-top: 6px;
+}
+.info-box h3 { margin: 0 0 10px; font-size: 16px; font-weight: 800;}
+.price-row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding: 7px 0; border-bottom: 2px dashed var(--line); font-size: 14px;}
+.price-row:last-of-type { border-bottom: none;}
+.price-row b { font-family: "Zen Maru Gothic", "M PLUS Rounded 1c", sans-serif; font-size: 19px; white-space: nowrap;}
+.price-row.best { color: var(--pink-deep);}
+.info-box p.note { font-size: 12.5px; color: var(--ink-soft); line-height: 1.85; margin: 10px 0 0;}
+
+.bday {
+margin-top: 16px; border-radius: 20px; padding: 20px;
+background: var(--purple); color: #fff; text-align: center; box-shadow: var(--shadow);
+}
+.bday.bday-label { font-size: 13px; letter-spacing:.08em; opacity:.9; font-weight: 700;}
+.bday p { margin: 6px 0 0; font-weight: 800; font-size: 16.5px; line-height: 1.75;}
+
+.actions { display: grid; gap: 12px; margin-top: 20px;}
+.btn-main {
+display: flex; align-items: center; justify-content: center; gap: 8px;
+font-weight: 800; font-size: 17px; text-decoration: none; text-align: center;
+background: var(--pink); color: #fff; border: none; border-radius: 99px;
+padding: 16px 20px; box-shadow: 0 7px 0 var(--pink-deep); cursor: pointer; font-family: inherit;
+}
+.btn-main:active { transform: translateY(5px); box-shadow: 0 2px 0 var(--pink-deep);}
+.btn-sub {
+display: flex; align-items: center; justify-content: center; gap: 8px;
+font-weight: 800; font-size: 15px; background: var(--card); color: var(--ink);
+border: 2px solid var(--line); border-radius: 99px; padding: 14px 20px; cursor: pointer; font-family: inherit;
+}
+.restart { display: block; margin: 22px auto 0; background: none; border: none; font-family: inherit; font-size: 13px; font-weight: 700; color: var(--ink-soft); cursor: pointer; padding: 12px 20px; text-decoration: underline; text-underline-offset: 3px;}
+
+.toast {
+position: fixed; left: 50%; bottom: 26px; transform: translate(-50%, 90px);
+background: var(--ink); color: var(--bg); font-weight: 800; font-size: 14px;
+padding: 13px 22px; border-radius: 99px; transition: transform.35s cubic-bezier(.2, 1.2,.4, 1);
+z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
+}
+.toast.show { transform: translate(-50%, 0);}
+
+.confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 40;}
+.confetti i { position: absolute; top: -14px; width: 9px; height: 14px; border-radius: 3px; animation: fall linear forwards;}
+@keyframes fall { to { transform: translateY(105vh) rotate(560deg);}}
+@media (prefers-reduced-motion: reduce) {.confetti { display: none;}}
+</style>
+</head>
+<body>
+<main>
+<!-- ============ 1つめ：お誘い ============ -->
+<section class="screen active" id="screen-ask" aria-label="お誘い">
+<div class="steps" aria-hidden="true"><span class="on"></span><span></span><span></span></div>
+<div class="card">
+<span class="kicker">あなたへのお誘いです</span>
+<h1 class="big">11月25日（水）<br />映画デートに<br />行かない？</h1>
+<p class="sub">錦糸町で映画を<strong>3本</strong>続けて観る、ちょっと欲張りなデートの提案です。<br />朝から一緒に出かけて、夕方にはおうちに帰るプランにしたよ。</p>
+
+<div class="art" aria-hidden="true">
+<svg viewBox="0 0 300 170" role="img" aria-label="ポップコーンと映画チケットのイラスト">
+<g>
+<circle cx="118" cy="38" r="17" fill="#fff3d6"/>
+<circle cx="143" cy="28" r="19" fill="#fff8e3"/>
+<circle cx="168" cy="38" r="16" fill="#fff3d6"/>
+<circle cx="130" cy="50" r="15" fill="#ffeec2"/>
+<circle cx="158" cy="52" r="15" fill="#ffeec2"/>
+<path d="M100 55 L186 55 L174 148 Q143 158 112 148 Z" fill="#fffdf8"/>
+<path d="M118 55 L126 152 L141 155 L136 55 Z" fill="#ef8fab"/>
+<path d="M152 55 L150 156 L165 152 L168 55 Z" fill="#ef8fab"/>
+<circle cx="143" cy="98" r="13" fill="#ffc93c"/>
+<text x="143" y="104" text-anchor="middle" font-size="14" font-weight="bold" fill="#7a4a00" font-family="sans-serif">3</text>
+</g>
+<g transform="rotate(14 235 105)">
+<rect x="192" y="72" width="92" height="58" rx="9" fill="#ffc93c"/>
+<line x1="252" y1="74" x2="252" y2="128" stroke="#e8a90c" stroke-width="3" stroke-dasharray="5 5"/>
+<circle cx="213" cy="94" r="7" fill="#fffdf8"/>
+<rect x="204" y="108" width="34" height="6" rx="3" fill="#fffdf8" opacity=".85"/>
+<rect x="260" y="90" width="16" height="6" rx="3" fill="#fffdf8" opacity=".85"/>
+<rect x="260" y="102" width="16" height="6" rx="3" fill="#fffdf8" opacity=".85"/>
+</g>
+<circle cx="52" cy="130" r="5" fill="#ffc93c"/>
+<circle cx="272" cy="34" r="5" fill="#fffdf8"/>
+<circle cx="36" cy="52" r="4" fill="#fffdf8" opacity=".8"/>
+</svg>
+</div>
+
+<div class="choice-stage" id="stage">
+<div class="choice-row" id="choiceRow">
+<button class="btn-yes" id="btnYes" type="button">行く！ 🎬</button>
+<button class="btn-no" id="btnNo" type="button">いや…</button>
+</div>
+<p class="dodge-msg" id="dodgeMsg" aria-live="polite"></p>
+<p class="fineprint">※「いや」のボタンは、押そうとすると逃げちゃう仕様です</p>
+</div>
+</div>
+</section>
+
+<!-- ============ 2つめ：喜びの画面 ============ -->
+<section class="screen" id="screen-yay" aria-label="決定">
+<div class="steps" aria-hidden="true"><span class="on"></span><span class="on"></span><span></span></div>
+<div class="card">
+<span class="kicker">本当にいいの…？</span>
+<h1 class="big">えっ、本当に<br />行ってくれるの！？</h1>
+<p class="sub">断られるかもと思ってたから、すごくうれしい。ありがとう！<br />じゃあ、当日の予定はこんな感じだよ。</p>
+<div class="art pinkbg" aria-hidden="true">
+<svg viewBox="0 0 300 150" role="img" aria-label="喜ぶチケット2枚のイラスト">
+<g transform="rotate(-9 108 78)">
+<rect x="58" y="42" width="100" height="66" rx="10" fill="#fffdf8"/>
+<line x1="128" y1="44" x2="128" y2="106" stroke="#f3ddba" stroke-width="3" stroke-dasharray="5 5"/>
+<circle cx="84" cy="68" r="4.5" fill="#3a2723"/>
+<circle cx="104" cy="68" r="4.5" fill="#3a2723"/>
+<path d="M84 84 Q94 94 104 84" stroke="#3a2723" stroke-width="4" fill="none" stroke-linecap="round"/>
+<circle cx="74" cy="79" r="5" fill="#ef8fab" opacity=".65"/>
+<circle cx="114" cy="79" r="5" fill="#ef8fab" opacity=".65"/>
+<rect x="136" y="60" width="15" height="6" rx="3" fill="#d9c8ef"/>
+<rect x="136" y="72" width="15" height="6" rx="3" fill="#d9c8ef"/>
+</g>
+<g transform="rotate(10 205 82)">
+<rect x="156" y="48" width="100" height="66" rx="10" fill="#fff3d6"/>
+<line x1="226" y1="50" x2="226" y2="112" stroke="#e8cf9a" stroke-width="3" stroke-dasharray="5 5"/>
+<circle cx="182" cy="74" r="4.5" fill="#3a2723"/>
+<circle cx="202" cy="74" r="4.5" fill="#3a2723"/>
+<path d="M182 90 Q192 100 202 90" stroke="#3a2723" stroke-width="4" fill="none" stroke-linecap="round"/>
+<circle cx="172" cy="85" r="5" fill="#ef8fab" opacity=".65"/>
+<circle cx="212" cy="85" r="5" fill="#ef8fab" opacity=".65"/>
+<rect x="234" y="66" width="15" height="6" rx="3" fill="#e8cf9a"/>
+<rect x="234" y="78" width="15" height="6" rx="3" fill="#e8cf9a"/>
+</g>
+<path d="M40 26 l3.5 8 8 3.5 -8 3.5 -3.5 8 -3.5 -8 -8 -3.5 8 -3.5 Z" fill="#fffdf8"/>
+<path d="M262 18 l2.8 6.4 6.4 2.8 -6.4 2.8 -2.8 6.4 -2.8 -6.4 -6.4 -2.8 6.4 -2.8 Z" fill="#fffdf8"/>
+</svg>
+</div>
+<button class="btn-next" id="btnPlan" type="button">わかった、わかった！ 予定を見る →</button>
+</div>
+</section>
+
+<!-- ============ 3つめ：当日の予定 ============ -->
+<section class="screen" id="screen-plan" aria-label="当日のプラン">
+<div class="steps" aria-hidden="true"><span class="on"></span><span class="on"></span><span class="on"></span></div>
+
+<div class="plan-head">
+<span class="kicker">当日の予定 ・ 11月25日（水）</span>
+<h2>錦糸町で映画3本の日</h2>
+<p>おうちから一緒に出発して、夕方には帰る日帰りの予定です。<br />19時までに帰る約束、ちゃんと守れるよ。</p>
+<span class="venue-chip">🎬 TOHOシネマズ錦糸町（楽天地・オリナス）／ JR錦糸町駅すぐ</span>
+</div>
+
+<div class="card" style="padding: 26px 20px 8px;">
+<ol class="timeline">
+<li class="t-home">
+<div class="t-time">7:30</div>
+<div class="t-dot"></div>
+<div class="t-body">
+<h3>おうちを一緒に出発 🏠</h3>
+<p>同じ家から、二人で出発。小岩から総武線で錦糸町へ。ねこにはお留守番をお願いして出かけよう。</p>
+</div>
+</li>
+<li>
+<div class="t-time">8:15</div>
+<div class="t-dot"></div>
+<div class="t-body">
+<h3>1本目『クリスマス・キャロル』</h3>
+<p>8:15〜10:25。朝いちばんは、クリスマスの気分を先取りできる1本から。少し早起きだけど、ここががんばりどころ。</p>
+<div class="movie-meta"><span class="tag">10:25 終了</span><span class="tag alt">上映 130分</span></div>
+<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">この回を予約する →</a>
+</div>
+</li>
+<li class="t-break">
+<div class="t-time">10:25</div>
+<div class="t-dot"></div>
+<div class="t-body">
+<h3>休憩と、遅めの朝ごはん（50分）</h3>
+<p>錦糸町の近くで軽く食べて、コーヒーでひと息。次の回まで余裕があるよ。</p>
+</div>
+</li>
+<li>
+<div class="t-time">11:15</div>
+<div class="t-dot"></div>
+<div class="t-body">
+<h3>2本目『魔法使いの夜』</h3>
+<p>11:15〜13:40。この日のいちばんの楽しみ。公開したばかりで特典の期間中（〜11/26）だから、座席は早めに押さえておきたい回だよ。</p>
+<div class="movie-meta"><span class="tag">13:40 終了</span><span class="tag alt">上映 145分</span></div>
+<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">この回を予約する →</a>
+</div>
+</li>
+<li class="t-break">
+<div class="t-time">13:40</div>
+<div class="t-dot"></div>
+<div class="t-body">
+<h3>小休憩（25分）</h3>
+<p>ポップコーンを買い足すか、そのまま3本目へ。無理のない間隔にしてあるよ。</p>
+</div>
+</li>
+<li>
+<div class="t-time">14:05</div>
+<div class="t-dot"></div>
+<div class="t-body">
+<h3>3本目『装甲騎兵ボトムズ 灰色の魔女』</h3>
+<p>14:05〜15:55ごろ。締めくくりはボトムズの第1作。これで3本、ぜんぶ観られるね。</p>
+<div class="movie-meta"><span class="tag">15:55ごろ 終了</span><span class="tag alt">上映 110分</span></div>
+<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">この回を予約する →</a>
+</div>
+</li>
+<li class="t-home">
+<div class="t-time">16:30</div>
+<div class="t-dot"></div>
+<div class="t-body">
+<h3>おうちに帰宅（予定）</h3>
+<p>錦糸町から小岩まではすぐ。16:30ごろには帰れる見込みで、19時までたっぷり余裕があるよ。夜はおうちでゆっくりしよう。</p>
+</div>
+</li>
+</ol>
+</div>
+
+<div class="info-box">
+<h3>💰 料金のメモ（2人分・3本）</h3>
+<div class="price-row"><span>水曜日の割引（TOHOウェンズデイ）<br />1,400円 × 3本 × 2人</span><b>8,400円</b></div>
+<div class="price-row"><span class="best">どちらかがPontaパス会員なら<br />1,100円 × 3本 × 2人</span><b class="best">6,600円</b></div>
+<p class="note">U-NEXTのポイントでもチケットに替えられるけど、1枚に1,800ポイントかかるので、水曜日の割引がある日は現金で払うほうがお得だよ。ポイントはふだんの料金の日に取っておくのがおすすめ。座席はまだ押さえていないので、決まったら公式の予定から「11月25日・錦糸町」を選んで、3本まとめて予約してね。</p>
+</div>
+
+<div class="bday">
+<span class="bday-label">そして翌日は…</span>
+<p>26日は誕生日 🎂<br />前日は夕方に帰って、夜はゆっくり誕生日の前夜を過ごそう。</p>
+</div>
+
+<div class="actions">
+<a class="btn-main" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">🎟️ TOHOシネマズ錦糸町で予約する</a>
+<button class="btn-sub" id="btnCopy" type="button">📋 予定をコピーする（LINEに貼れるよ）</button>
+</div>
+<p class="fineprint" style="text-align:center;">リンク先はTOHOシネマズの公式予定ページです。作品と時間を選んで座席を指定できます。上映時間は変わることがあるので、予約のときに最後にもう一度確認してね。</p>
+
+<button class="restart" id="btnRestart" type="button">最初のお誘いから見る</button>
+</section>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+(function () {
+var screens = {
+ask: document.getElementById('screen-ask'),
+yay: document.getElementById('screen-yay'),
+plan: document.getElementById('screen-plan')
+};
+function show(name) {
+Object.keys(screens).forEach(function (k) { screens[k].classList.toggle('active', k === name);});
+window.scrollTo({ top: 0, behavior: 'smooth'});
+}
+
+/* ---- 紙吹雪 ---- */
+var confettiBox = document.getElementById('confetti');
+var colors = ['#ef8fab', '#f2b749', '#8d7fb8', '#7fb99e', '#ff9f68'];
+function burst(n) {
+if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+for (var i = 0; i < n; i++) {
+var p = document.createElement('i');
+p.style.left = (Math.random() * 100) + 'vw';
+p.style.background = colors[i % colors.length];
+p.style.animationDuration = (1.4 + Math.random() * 1.4) + 's';
+p.style.animationDelay = (Math.random() * 0.35) + 's';
+p.style.transform = 'rotate(' + (Math.random() * 360) + 'deg)';
+confettiBox.appendChild(p);
+(function (el) { setTimeout(function () { el.remove();}, 3400);})(p);
+}
+}
+
+/* ---- 逃げる「いや」ボタン ---- */
+var stage = document.getElementById('stage');
+var btnNo = document.getElementById('btnNo');
+var btnYes = document.getElementById('btnYes');
+var msg = document.getElementById('dodgeMsg');
+var dodges = 0;
+var pleas = [
+'あれ、ボタンが逃げちゃった…？',
+'もう1回、考えてみて！',
+'そのボタン、押せないみたい…',
+'3本ともおもしろそうだよ？',
+'ポップコーン、おごるから！',
+'ほら、「行く！」のボタンのほうだよ →',
+'ここまで来たら「行く！」しかないね'
+];
+function dodge() {
+dodges++;
+if (!btnNo.classList.contains('floating')) {
+var r = btnNo.getBoundingClientRect();
+var sr = stage.getBoundingClientRect();
+btnNo.classList.add('floating');
+btnNo.style.left = (r.left - sr.left) + 'px';
+btnNo.style.top = (r.top - sr.top) + 'px';
+btnNo.style.width = r.width + 'px';
+}
+var maxX = Math.max(0, stage.clientWidth - btnNo.offsetWidth);
+var maxY = Math.max(0, stage.clientHeight - btnNo.offsetHeight);
+btnNo.style.left = (Math.random() * maxX) + 'px';
+btnNo.style.top = (Math.random() * maxY) + 'px';
+var scale = Math.max(0.62, 1 - dodges * 0.06);
+btnNo.style.transform = 'scale(' + scale + ')';
+btnNo.textContent = dodges >= 3? 'むり…': 'いや…';
+msg.textContent = pleas[Math.min(dodges - 1, pleas.length - 1)];
+var ys = Math.min(1.25, 1 + dodges * 0.04);
+btnYes.style.transform = 'scale(' + ys + ')';
+}
+btnNo.addEventListener('pointerenter', dodge);
+btnNo.addEventListener('pointerdown', function (e) { e.preventDefault(); dodge();});
+btnNo.addEventListener('click', function (e) { e.preventDefault(); dodge();});
+btnNo.addEventListener('touchstart', function (e) { e.preventDefault(); dodge();}, { passive: false});
+btnNo.addEventListener('focus', function () { msg.textContent = 'キーボードでも、気持ちは受け取ったよ';});
+
+btnYes.addEventListener('click', function () { burst(46); show('yay');});
+document.getElementById('btnPlan').addEventListener('click', function () { show('plan');});
+document.getElementById('btnRestart').addEventListener('click', function () { show('ask');});
+
+/* ---- 予定をコピー（LINE用） ---- */
+var toast = document.getElementById('toast');
+var toastTimer = null;
+function showToast(text) {
+toast.textContent = text;
+toast.classList.add('show');
+clearTimeout(toastTimer);
+toastTimer = setTimeout(function () { toast.classList.remove('show');}, 2600);
+}
+var planText = [
+'',
+'',
+'7:30　おうちを一緒に出発',
+'8:15〜10:25　クリスマス・キャロル',
+'（休憩・朝ごはん）',
+'11:15〜13:40　魔法使いの夜',
+'（小休憩）',
+'14:05〜15:55ごろ　装甲騎兵ボトムズ 灰色の魔女',
+'',
+'16:30ごろ 帰宅予定（19時まで余裕あり）',
+'料金は水曜日の割引で 1,400円×3本×2人＝8,400円',
+'※Pontaパス会員だと 6,600円',
+'',
+'翌26日は誕生日なので、夜はゆっくりしよう'
+].join('\n');
+document.getElementById('btnCopy').addEventListener('click', function () {
+function done() { showToast('コピーしたよ！LINEに貼って送ってね');}
+function fallback() {
+var ta = document.createElement('textarea');
+ta.value = planText;
+ta.style.position = 'fixed'; ta.style.opacity = '0';
+document.body.appendChild(ta);
+ta.select();
+try { document.execCommand('copy'); done();}
+catch (e) { showToast('コピーできなかった…ごめん！');}
+ta.remove();
+}
+if (navigator.clipboard && navigator.clipboard.writeText) {
+navigator.clipboard.writeText(planText).then(done, fallback);
+} else { fallback();}
+});
+})();
+</script>
+</body>
+</html>
