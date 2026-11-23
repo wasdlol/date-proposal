@@ -102,8 +102,9 @@ background: var(--purple); padding: 18px 10px 8px;
 .art svg { display: block; width: 100%; height: auto;}
 
 /* choice stage */
-.choice-stage { position: relative; min-height: 190px; margin-top: 10px;}
-.choice-row { display: flex; gap: 14px; justify-content: center; align-items: center; padding-top: 26px; flex-wrap: wrap;}
+.choice-stage { position: relative; margin-top: 10px;}
+.dodge-field { position: relative; height: 172px;}
+.choice-row { display: flex; gap: 14px; justify-content: center; align-items: center; padding-top: 30px; flex-wrap: wrap;}
 .btn-yes {
 font-family: inherit; font-weight: 800; font-size: 19px; cursor: pointer;
 background: var(--pink); color: #fff; border: none; border-radius: 99px;
@@ -118,7 +119,7 @@ border-radius: 99px; padding: 13px 28px; transition: left.25s, top.25s, transfor
 touch-action: none; z-index: 3; white-space: nowrap;
 }
 .btn-no.floating { position: absolute; margin: 0;}
-.dodge-msg { min-height: 28px; font-size: 14px; font-weight: 700; color: var(--pink-deep); margin-top: 4px;}
+.dodge-msg { min-height: 28px; font-size: 14px; font-weight: 700; color: var(--pink-deep); margin: 2px 0 0;}
 .fineprint { font-size: 12px; color: var(--ink-soft); margin-top: 6px;}
 
 .btn-next {
@@ -145,7 +146,7 @@ padding: 9px 16px; font-weight: 800; font-size: 14px; box-shadow: var(--shadow);
 .t-dot { position: relative; display: flex; justify-content: center;}
 .t-dot::before { content: ""; width: 13px; height: 13px; border-radius: 50%; background: var(--pink); border: 3px solid var(--card); box-shadow: 0 0 0 2px var(--pink); margin-top: 5px; z-index: 1;}
 .t-dot::after { content: ""; position: absolute; top: 22px; bottom: -6px; width: 3px; border-radius: 3px; background: var(--line);}
-.timeline li:last-child.t-dot::after { display: none;}
+.timeline li:last-child .t-dot::after { display: none;}
 .t-body { padding-bottom: 26px;}
 .t-body h3 { margin: 0 0 4px; font-size: 17px; font-weight: 800; line-height: 1.5;}
 .t-body p { margin: 0; font-size: 13.5px; color: var(--ink-soft); line-height: 1.85;}
@@ -158,12 +159,18 @@ padding: 9px 16px; font-weight: 800; font-size: 14px; box-shadow: var(--shadow);
 .tag.alt { background: #eeeafd; color: var(--purple-deep);}
 @media (prefers-color-scheme: dark) {.tag.alt { background: #38305e;}}
 .book-link {
-display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
-font-weight: 800; font-size: 14px; text-decoration: none;
-background: var(--purple); color: #fff; border-radius: 99px; padding: 11px 20px;
+display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 10px;
+font-weight: 800; font-size: 13.5px; line-height: 1.55; text-decoration: none; text-align: center;
+background: var(--purple); color: #fff; border-radius: 16px; padding: 11px 14px;
 box-shadow: 0 5px 0 var(--purple-deep);
 }
 .book-link:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--purple-deep);}
+.t-body { min-width: 0;}
+@media (max-width: 400px) {
+.timeline li { grid-template-columns: 58px 20px 1fr; gap: 0 6px;}
+.t-time { font-size: 14px;}
+.t-body h3 { font-size: 16px;}
+}
 
 .info-box {
 background: var(--card); border: 2px solid var(--line); border-radius: 20px;
@@ -180,7 +187,7 @@ box-shadow: var(--shadow); padding: 20px; text-align: left; margin-top: 6px;
 margin-top: 16px; border-radius: 20px; padding: 20px;
 background: var(--purple); color: #fff; text-align: center; box-shadow: var(--shadow);
 }
-.bday.bday-label { font-size: 13px; letter-spacing:.08em; opacity:.9; font-weight: 700;}
+.bday .bday-label { font-size: 13px; letter-spacing:.08em; opacity:.9; font-weight: 700;}
 .bday p { margin: 6px 0 0; font-weight: 800; font-size: 16.5px; line-height: 1.75;}
 
 .actions { display: grid; gap: 12px; margin-top: 20px;}
@@ -250,13 +257,14 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 </svg>
 </div>
 
-<div class="choice-stage" id="stage">
+<div class="choice-stage">
+<div class="dodge-field" id="stage">
 <div class="choice-row" id="choiceRow">
 <button class="btn-yes" id="btnYes" type="button">行く！ 🎬</button>
 <button class="btn-no" id="btnNo" type="button">いや…</button>
 </div>
+</div>
 <p class="dodge-msg" id="dodgeMsg" aria-live="polite"></p>
-<p class="fineprint">※「いや」のボタンは、押そうとすると逃げちゃう仕様です</p>
 </div>
 </div>
 </section>
@@ -308,7 +316,7 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 <span class="kicker">当日の予定 ・ 11月25日（水）</span>
 <h2>錦糸町で映画3本の日</h2>
 <p>おうちから一緒に出発して、夕方には帰る日帰りの予定です。<br />19時までに帰る約束、ちゃんと守れるよ。</p>
-<span class="venue-chip">🎬 TOHOシネマズ錦糸町（楽天地・オリナス）／ JR錦糸町駅すぐ</span>
+<span class="venue-chip">🎬 TOHOシネマズ錦糸町（オリナス館・楽天地館の2館）／ JR錦糸町駅すぐ</span>
 </div>
 
 <div class="card" style="padding: 26px 20px 8px;">
@@ -325,10 +333,10 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 <div class="t-time">8:15</div>
 <div class="t-dot"></div>
 <div class="t-body">
-<h3>1本目『クリスマス・キャロル』</h3>
+<h3>1本目『クリスマス・キャロル 3人のゴーストたち』</h3>
 <p>8:15〜10:25。朝いちばんは、クリスマスの気分を先取りできる1本から。少し早起きだけど、ここががんばりどころ。</p>
-<div class="movie-meta"><span class="tag">10:25 終了</span><span class="tag alt">上映 130分</span></div>
-<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">この回を予約する →</a>
+<div class="movie-meta"><span class="tag">オリナス館 スクリーン7</span><span class="tag alt">字幕版</span><span class="tag">10:25 終了</span><span class="tag alt">上映 130分</span></div>
+<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/029/TNPI2000J01.do" target="_blank" rel="noopener">オリナス館のスケジュールで、11/25・8:15の回を選んでね →</a>
 </div>
 </li>
 <li class="t-break">
@@ -336,7 +344,7 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 <div class="t-dot"></div>
 <div class="t-body">
 <h3>休憩と、遅めの朝ごはん（50分）</h3>
-<p>錦糸町の近くで軽く食べて、コーヒーでひと息。次の回まで余裕があるよ。</p>
+<p>錦糸町の近くで軽く食べて、コーヒーでひと息。次の回まで余裕があるよ。次の『魔法使いの夜』も同じオリナス館だから、館の移動はなし。</p>
 </div>
 </li>
 <li>
@@ -345,16 +353,16 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 <div class="t-body">
 <h3>2本目『魔法使いの夜』</h3>
 <p>11:15〜13:40。この日のいちばんの楽しみ。公開したばかりで特典の期間中（〜11/26）だから、座席は早めに押さえておきたい回だよ。</p>
-<div class="movie-meta"><span class="tag">13:40 終了</span><span class="tag alt">上映 145分</span></div>
-<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">この回を予約する →</a>
+<div class="movie-meta"><span class="tag">オリナス館 スクリーン1</span><span class="tag">13:40 終了</span><span class="tag alt">上映 145分</span></div>
+<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/029/TNPI2000J01.do" target="_blank" rel="noopener">オリナス館のスケジュールで、11/25・11:15の回を選んでね →</a>
 </div>
 </li>
 <li class="t-break">
 <div class="t-time">13:40</div>
 <div class="t-dot"></div>
 <div class="t-body">
-<h3>小休憩（25分）</h3>
-<p>ポップコーンを買い足すか、そのまま3本目へ。無理のない間隔にしてあるよ。</p>
+<h3>小休憩と、館の移動（25分）</h3>
+<p>ここでオリナス館（駅の北口側）から楽天地館（南口側）へ移動。歩いて数分だから、25分の間隔でも余裕で間に合うよ。</p>
 </div>
 </li>
 <li>
@@ -363,8 +371,8 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 <div class="t-body">
 <h3>3本目『装甲騎兵ボトムズ 灰色の魔女』</h3>
 <p>14:05〜15:55ごろ。締めくくりはボトムズの第1作。これで3本、ぜんぶ観られるね。</p>
-<div class="movie-meta"><span class="tag">15:55ごろ 終了</span><span class="tag alt">上映 110分</span></div>
-<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">この回を予約する →</a>
+<div class="movie-meta"><span class="tag">楽天地館 スクリーン11</span><span class="tag">15:55ごろ 終了</span><span class="tag alt">上映 110分</span></div>
+<a class="book-link" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">楽天地館のスケジュールで、11/25・14:05の回を選んでね →</a>
 </div>
 </li>
 <li class="t-home">
@@ -382,7 +390,7 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 <h3>💰 料金のメモ（2人分・3本）</h3>
 <div class="price-row"><span>水曜日の割引（TOHOウェンズデイ）<br />1,400円 × 3本 × 2人</span><b>8,400円</b></div>
 <div class="price-row"><span class="best">どちらかがPontaパス会員なら<br />1,100円 × 3本 × 2人</span><b class="best">6,600円</b></div>
-<p class="note">U-NEXTのポイントでもチケットに替えられるけど、1枚に1,800ポイントかかるので、水曜日の割引がある日は現金で払うほうがお得だよ。ポイントはふだんの料金の日に取っておくのがおすすめ。座席はまだ押さえていないので、決まったら公式の予定から「11月25日・錦糸町」を選んで、3本まとめて予約してね。</p>
+<p class="note">U-NEXTのポイントでもチケットに替えられるけど、1枚に1,800ポイントかかるので、水曜日の割引がある日は現金で払うほうがお得だよ。ポイントはふだんの料金の日に取っておくのがおすすめ。座席はまだ押さえていないので、決まったら各作品のリンクから館のスケジュールを開いて、11月25日の回を3本とも予約してね（1・2本目はオリナス館、3本目は楽天地館だよ）。</p>
 </div>
 
 <div class="bday">
@@ -391,10 +399,11 @@ z-index: 50; pointer-events: none; max-width: 88vw; text-align: center;
 </div>
 
 <div class="actions">
-<a class="btn-main" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">🎟️ TOHOシネマズ錦糸町で予約する</a>
+<a class="btn-main" href="https://hlo.tohotheater.jp/net/schedule/029/TNPI2000J01.do" target="_blank" rel="noopener">🎟️ オリナス館で予約する（1・2本目）</a>
+<a class="btn-main" href="https://hlo.tohotheater.jp/net/schedule/092/TNPI2000J01.do" target="_blank" rel="noopener">🎟️ 楽天地館で予約する（3本目）</a>
 <button class="btn-sub" id="btnCopy" type="button">📋 予定をコピーする（LINEに貼れるよ）</button>
 </div>
-<p class="fineprint" style="text-align:center;">リンク先はTOHOシネマズの公式予定ページです。作品と時間を選んで座席を指定できます。上映時間は変わることがあるので、予約のときに最後にもう一度確認してね。</p>
+<p class="fineprint" style="text-align:center;">リンク先はTOHOシネマズの公式スケジュールページです。開いたら「11月25日」を選んで、観たい回の時間から座席を指定してね。上映時間は変わることがあるので、予約のときに最後にもう一度確認してね。</p>
 
 <button class="restart" id="btnRestart" type="button">最初のお誘いから見る</button>
 </section>
@@ -465,7 +474,7 @@ var scale = Math.max(0.62, 1 - dodges * 0.06);
 btnNo.style.transform = 'scale(' + scale + ')';
 btnNo.textContent = dodges >= 3? 'むり…': 'いや…';
 msg.textContent = pleas[Math.min(dodges - 1, pleas.length - 1)];
-var ys = Math.min(1.25, 1 + dodges * 0.04);
+var ys = Math.min(1.18, 1 + dodges * 0.04);
 btnYes.style.transform = 'scale(' + ys + ')';
 }
 btnNo.addEventListener('pointerenter', dodge);
@@ -491,11 +500,11 @@ var planText = [
 '',
 '',
 '7:30　おうちを一緒に出発',
-'8:15〜10:25　クリスマス・キャロル',
+'8:15〜10:25　クリスマス・キャロル（オリナス館）',
 '（休憩・朝ごはん）',
-'11:15〜13:40　魔法使いの夜',
-'（小休憩）',
-'14:05〜15:55ごろ　装甲騎兵ボトムズ 灰色の魔女',
+'11:15〜13:40　魔法使いの夜（オリナス館）',
+'（小休憩・楽天地館へ移動）',
+'14:05〜15:55ごろ　装甲騎兵ボトムズ 灰色の魔女（楽天地館）',
 '',
 '16:30ごろ 帰宅予定（19時まで余裕あり）',
 '料金は水曜日の割引で 1,400円×3本×2人＝8,400円',
